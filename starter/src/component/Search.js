@@ -11,7 +11,7 @@ const Search = ({ bookList, selectShelfForBook }) => {
 
   //Handling side effects of book search
   useEffect(() => {
-    (async () => {
+    const searchTimer = setTimeout(async () => {
       try {
         //Garding calling API with any false value
         if (search) {
@@ -31,6 +31,7 @@ const Search = ({ bookList, selectShelfForBook }) => {
                 }
               });
             });
+            debugger;
             setSearchBooksList(result);
           }
         } else {
@@ -40,7 +41,11 @@ const Search = ({ bookList, selectShelfForBook }) => {
         //In case of any error happened render empty list
         setSearchBooksList([]);
       }
-    })();
+    }, 1000);
+
+    return () => {
+      clearTimeout(searchTimer);
+    };
   }, [search, bookList]);
 
   return (
